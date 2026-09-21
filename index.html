@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DINO//VERSE</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;600;800&display=swap');
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#03040a;
+ color:#fff;
+ font-family:Inter,Arial,sans-serif;
+ overflow-x:hidden;
+}
+
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ background:
+ radial-gradient(circle at 15% 20%,#00ffe51c,transparent 30%),
+ radial-gradient(circle at 85% 80%,#9b5cff18,transparent 35%),
+ linear-gradient(#ffffff03 1px,transparent 1px),
+ linear-gradient(90deg,#ffffff03 1px,transparent 1px);
+ background-size:auto,auto,50px 50px;
+ z-index:-1;
+}
+
+header{
+ position:fixed;
+ top:0;
+ left:0;
+ right:0;
+ height:70px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:0 5%;
+ background:#03040add;
+ backdrop-filter:blur(20px);
+ border-bottom:1px solid #ffffff15;
+ z-index:100;
+}
+
+.logo{
+ font-family:Orbitron;
+ font-weight:900;
+ letter-spacing:4px;
+ color:#57ffe0;
+}
+
+.logo span{color:#fff}
+
+.counter{
+ font-family:Orbitron;
+ color:#75849c;
+ font-size:12px;
+}
+
+.page{
+ min-height:100vh;
+ padding:115px 7% 70px;
+ display:none;
+ animation:enter .5s ease;
+}
+
+.page.active{display:block}
+
+@keyframes enter{
+ from{opacity:0;transform:translateX(35px)}
+ to{opacity:1;transform:translateX(0)}
+}
+
+.hero{
+ max-width:1200px;
+ margin:auto;
+}
+
+.badge{
+ display:inline-block;
+ border:1px solid #57ffe066;
+ color:#57ffe0;
+ padding:8px 13px;
+ border-radius:30px;
+ font-family:Orbitron;
+ font-size:10px;
+ letter-spacing:2px;
+ margin-bottom:20px;
+ background:#57ffe00a;
+}
+
+h1{
+ font-family:Orbitron;
+ font-size:clamp(42px,8vw,100px);
+ line-height:.9;
+ margin:0;
+ text-transform:uppercase;
+ letter-spacing:-4px;
+ text-shadow:0 0 35px #57ffe033;
+}
+
+.subtitle{
+ color:#9eabc0;
+ font-size:18px;
+ max-width:700px;
+ line-height:1.7;
+ margin:25px 0;
+}
+
+.dino-display{
+ margin-top:30px;
+ min-height:360px;
+ border:1px solid #ffffff18;
+ border-radius:30px;
+ position:relative;
+ overflow:hidden;
+ background:
+ radial-gradient(circle at 50% 50%,#57ffe010,transparent 55%),
+ linear-gradient(135deg,#0a101b,#05070d);
+ box-shadow:0 20px 80px #000;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+}
+
+.dino-display:after{
+ content:"SPECIMEN SCAN";
+ position:absolute;
+ top:20px;
+ left:22px;
+ color:#57ffe077;
+ font:10px Orbitron;
+ letter-spacing:3px;
+}
+
+.dino-art{
+ font-size:150px;
+ filter:drop-shadow(0 0 25px #57ffe066);
+ animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-12px)}
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:12px;
+ margin-top:18px;
+}
+
+.stat{
+ background:#ffffff06;
+ border:1px solid #ffffff12;
+ border-radius:18px;
+ padding:18px;
+}
+
+.stat small{
+ color:#65758e;
+ display:block;
+ font:10px Orbitron;
+ letter-spacing:1px;
+ margin-bottom:8px;
+}
+
+.stat strong{
+ font-size:15px;
+}
+
+.content{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:18px;
+ margin-top:20px;
+}
+
+.card{
+ background:linear-gradient(145deg,#101827,#080c14);
+ border:1px solid #ffffff12;
+ border-radius:22px;
+ padding:25px;
+ box-shadow:0 15px 50px #0006;
+}
+
+.card h2{
+ margin-top:0;
+ font-family:Orbitron;
+ font-size:20px;
+}
+
+.card p{
+ color:#a9b5c7;
+ line-height:1.7;
+}
+
+.tags span{
+ display:inline-block;
+ padding:8px 11px;
+ margin:4px;
+ border-radius:20px;
+ background:#57ffe00c;
+ border:1px solid #57ffe033;
+ color:#57ffe0;
+ font-size:11px;
+}
+
+.fun{
+ border-color:#a98bff33;
+ background:linear-gradient(145deg,#151022,#090b12);
+}
+
+.fun h2{color:#c2aaff}
+
+.nav{
+ position:fixed;
+ bottom:25px;
+ left:50%;
+ transform:translateX(-50%);
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:10px;
+ background:#070a11dd;
+ backdrop-filter:blur(20px);
+ border:1px solid #ffffff18;
+ border-radius:50px;
+ z-index:100;
+}
+
+.nav button{
+ width:50px;
+ height:50px;
+ border-radius:50%;
+ border:1px solid #57ffe055;
+ background:#57ffe00b;
+ color:#57ffe0;
+ font-size:24px;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.nav button:hover{
+ background:#57ffe0;
+ color:#020506;
+ transform:scale(1.1);
+}
+
+.home{
+ font-family:Orbitron;
+ font-size:10px;
+ color:#718099;
+ min-width:90px;
+ text-align:center;
+}
+
+.dots{
+ display:flex;
+ gap:5px;
+}
+
+.dot{
+ width:5px;
+ height:5px;
+ border-radius:50%;
+ background:#344054;
+}
+
+.dot.active{background:#57ffe0;box-shadow:0 0 8px #57ffe0}
+
+.final-mark{
+ text-align:center;
+ color:#4f5969;
+ font:9px Orbitron;
+ letter-spacing:5px;
+ margin-top:55px;
+}
+
+@media(max-width:750px){
+ header{height:60px}
+ .page{padding:95px 5% 100px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .content{grid-template-columns:1fr}
+ .dino-art{font-size:100px}
+ h1{letter-spacing:-2px}
+ .nav{bottom:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">DINO<span>//VERSE</span></div>
+ <div class="counter" id="counter">01 / 20</div>
+</header>
+
+<main id="pages"></main>
+
+<div class="nav">
+ <button onclick="previous()">‹</button>
+ <div class="home" id="pageName">T. REX</div>
+ <div class="dots" id="dots"></div>
+ <button onclick="next()">›</button>
+</div>
+
+<script>
+
+const dinosaurs=[
+
+{
+name:"Tyrannosaurus Rex",
+short:"T. REX",
+emoji:"🦖",
+period:"LATE CRETACEOUS",
+place:"NORTH AMERICA",
+diet:"MEAT EATER",
+size:"~12 METRES",
+weight:"~8 TONNES",
+text:"The dinosaur everyone knows. T. rex had an enormous skull, huge teeth and one of the most powerful bites among known terrestrial animals. Despite its tiny arms, almost everything about this animal was built for hunting.",
+fun:"If T. rex lived today, it would absolutely be the guy who walks into a room and somehow everyone notices. Black sunglasses, ridiculous confidence and a completely unnecessary sports car.",
+tags:["POWER","HUNTER","ICONIC"]
+},
+
+{
+name:"Triceratops",
+short:"TRICERATOPS",
+emoji:"🦏",
+period:"LATE CRETACEOUS",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~9 METRES",
+weight:"~6 TONNES",
+text:"Three horns, a giant frill and a skull built like a tank. Triceratops was one of the most recognisable dinosaurs of the Cretaceous and probably used its impressive head for defence, display or both.",
+fun:"The dinosaur equivalent of the friend who always says 'don't worry, I've got this.' Massive confidence, massive horns and absolutely no reason to start an argument with him.",
+tags:["HORNS","TANK","DEFENCE"]
+},
+
+{
+name:"Velociraptor",
+short:"VELOCIRAPTOR",
+emoji:"🦎",
+period:"LATE CRETACEOUS",
+place:"CENTRAL ASIA",
+diet:"CARNIVORE",
+size:"~2 METRES",
+weight:"~15 KG",
+text:"The real Velociraptor was much smaller than its movie version. It was a lightweight, fast dromaeosaurid with a famous curved claw on each foot and evidence suggesting it had feathers.",
+fun:"Definitely the parkour kid. Always moving, never sitting normally and somehow climbing things nobody asked him to climb.",
+tags:["FAST","FEATHERED","CLAW"]
+},
+
+{
+name:"Stegosaurus",
+short:"STEGOSAURUS",
+emoji:"🦕",
+period:"LATE JURASSIC",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~9 METRES",
+weight:"~3 TONNES",
+text:"Stegosaurus carried two rows of huge plates along its back and a spiked tail known as a thagomizer. Its unusual body design has made it one of the most famous dinosaurs ever discovered.",
+fun:"The quiet guy who doesn't talk much but somehow has the coolest outfit in the entire school.",
+tags:["PLATES","SPIKES","JURASSIC"]
+},
+
+{
+name:"Spinosaurus",
+short:"SPINOSAURUS",
+emoji:"🐊",
+period:"CRETACEOUS",
+place:"NORTH AFRICA",
+diet:"FISH / MEAT",
+size:"~14–15 METRES",
+weight:"UNCERTAIN",
+text:"Spinosaurus had a long crocodile-like snout, enormous neural spines forming a sail and adaptations associated with aquatic environments. Its exact lifestyle remains an active scientific discussion.",
+fun:"Would definitely live next to the beach, own a jet ski and somehow turn every conversation into a story about how big the fish was.",
+tags:["SAIL","AQUATIC","GIANT"]
+},
+
+{
+name:"Brachiosaurus",
+short:"BRACHIOSAURUS",
+emoji:"🦕",
+period:"LATE JURASSIC",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~18–21 METRES",
+weight:"~30+ TONNES",
+text:"Brachiosaurus was a gigantic high-browsing sauropod. Its long forelimbs and enormous neck gave it an unusually tall profile compared with many other long-necked dinosaurs.",
+fun:"The absolute giant of the friend group. Would probably need to duck through every doorway and complain that the ceiling is too low.",
+tags:["GIANT","TALL","LONG NECK"]
+},
+
+{
+name:"Diplodocus",
+short:"DIPLODOCUS",
+emoji:"🦕",
+period:"LATE JURASSIC",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~25–27 METRES",
+weight:"~10–15 TONNES",
+text:"Diplodocus had an incredibly long neck and an equally impressive whip-like tail. Its elongated body made it one of the most spectacular sauropods of the Jurassic.",
+fun:"Would own the longest skateboard ever created and somehow still insist that it isn't long enough.",
+tags:["LONG","TAIL","JURASSIC"]
+},
+
+{
+name:"Ankylosaurus",
+short:"ANKYLOSAURUS",
+emoji:"🛡️",
+period:"LATE CRETACEOUS",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~6–8 METRES",
+weight:"~6 TONNES",
+text:"Ankylosaurus was basically a living armoured vehicle. Osteoderms protected its body while its powerful tail club provided an impressive defensive weapon.",
+fun:"The kid who arrives wearing every piece of protective equipment imaginable and still asks whether he needs another helmet.",
+tags:["ARMOUR","TAIL CLUB","TANK"]
+},
+
+{
+name:"Allosaurus",
+short:"ALLOSAURUS",
+emoji:"🦖",
+period:"LATE JURASSIC",
+place:"NORTH AMERICA",
+diet:"CARNIVORE",
+size:"~8–10 METRES",
+weight:"~2 TONNES",
+text:"Allosaurus was one of the major predators of the Jurassic. It had a large skull, curved serrated teeth and distinctive ridges above its eyes.",
+fun:"The dramatic one. Probably has a leather jacket, headphones and a playlist called 'JURASSIC NIGHT DRIVE.'",
+tags:["PREDATOR","TEETH","JURASSIC"]
+},
+
+{
+name:"Carnotaurus",
+short:"CARNOTAURUS",
+emoji:"🐂",
+period:"LATE CRETACEOUS",
+place:"SOUTH AMERICA",
+diet:"CARNIVORE",
+size:"~7.5 METRES",
+weight:"~1.5 TONNES",
+text:"Carnotaurus looked almost unreal. It had two horns above its eyes, extremely small arms and a powerful tail adapted for fast movement.",
+fun:"The dinosaur who definitely thinks he is the main character. The horns would be enough of an ego boost.",
+tags:["HORNS","FAST","WEIRD"]
+},
+
+{
+name:"Parasaurolophus",
+short:"PARASAUROLOPHUS",
+emoji:"🎺",
+period:"LATE CRETACEOUS",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~9–10 METRES",
+weight:"~2.5 TONNES",
+text:"Parasaurolophus had one of the wildest head shapes in dinosaur history. Its long hollow crest may have helped produce or modify sound.",
+fun:"The musician of the group. Would absolutely bring a giant instrument to school and somehow make it sound futuristic.",
+tags:["CREST","SOUND","MUSIC"]
+},
+
+{
+name:"Pachycephalosaurus",
+short:"PACHYCEPHALOSAURUS",
+emoji:"💥",
+period:"LATE CRETACEOUS",
+place:"NORTH AMERICA",
+diet:"HERBIVORE",
+size:"~4.5 METRES",
+weight:"~450 KG",
+text:"Pachycephalosaurus had an extremely thick dome of bone on its skull. Exactly how that dome was used remains debated, but it certainly made the animal unusual.",
+fun:"The guy who says 'watch this' immediately before doing something that probably should not be attempted.",
+tags:["DOME","SKULL","CRAZY"]
+},
+
+{
+name:"Iguanodon",
+short:"IGUANODON",
+emoji:"🦎",
+period:"EARLY CRETACEOUS",
+place:"EUROPE",
+diet:"HERBIVORE",
+size:"~9–10 METRES",
+weight:"~3 TONNES",
+text:"Iguanodon was one of the dinosaurs that helped scientists realise prehistoric reptiles were far stranger and more diverse than previously imagined. Its famous thumb spike is especially distinctive.",
+fun:"Would probably carry a Swiss Army knife and somehow use every single tool on it.",
+tags:["THUMB SPIKE","HERBIVORE","CLASSIC"]
+},
+
+{
+name:"Deinonychus",
+short:"DEINONYCHUS",
+emoji:"🦅",
+period:"EARLY CRETACEOUS",
+place:"NORTH AMERICA",
+diet:"CARNIVORE",
+size:"~3.4 METRES",
+weight:"~70 KG",
+text:"Deinonychus was a fast, agile dromaeosaurid with a large curved claw on each foot. Its discovery helped transform scientific ideas about dinosaurs and their relationship with birds.",
+fun:"Would definitely have a skateboard, a hoodie and approximately zero interest in walking anywhere normally.",
+tags:["AGILE","CLAW","FEATHERS"]
+},
+
+{
+name:"Archaeopteryx",
+short:"ARCHAEOPTERYX",
+emoji:"🐦",
+period:"LATE JURASSIC",
+place:"EUROPE",
+diet:"SMALL PREY",
+size:"~0.5 METRES",
+weight:"~0.5 KG",
+text:"Archaeopteryx had feathers and several bird-like features, but also retained traits associated with non-avian dinosaurs. It is an important fossil for understanding the evolution of birds.",
+fun:"The tiny genius who somehow knows everything but refuses to explain it.",
+tags:["FEATHERS","FLIGHT","EVOLUTION"]
+},
+
+{
+name:"Therizinosaurus",
+short:"THERIZINOSAURUS",
+emoji:"🦥",
+period:"LATE CRETACEOUS",
+place:"CENTRAL ASIA",
+diet:"HERBIVORE",
+size:"~9–10 METRES",
+weight:"~5 TONNES",
+text:"Therizinosaurus had absurdly long claws on its hands. Despite looking terrifying, its overall anatomy points toward a plant-eating lifestyle.",
+fun:"Looks like a final boss but is actually here to eat leaves. Probably the most confusing dinosaur at the party.",
+tags:["GIANT CLAWS","STRANGE","HERBIVORE"]
+},
+
+{
+name:"Giganotosaurus",
+short:"GIGANOTOSAURUS",
+emoji:"🦖",
+period:"LATE CRETACEOUS",
+place:"SOUTH AMERICA",
+diet:"CARNIVORE",
+size:"~12–13 METRES",
+weight:"~7 TONNES",
+text:"Giganotosaurus was one of the largest known terrestrial predatory dinosaurs. It lived in Patagonia and had a long skull and powerful hind limbs.",
+fun:"Would enter the gym once and immediately become the reason everyone else goes home.",
+tags:["GIANT","PREDATOR","PATAGONIA"]
+},
+
+{
+name:"Dilophosaurus",
+short:"DILOPHOSAURUS",
+emoji:"🦖",
+period:"EARLY JURASSIC",
+place:"NORTH AMERICA",
+diet:"CARNIVORE",
+size:"~7 METRES",
+weight:"~400–500 KG",
+text:"Dilophosaurus had two striking crests on top of its skull. Popular culture gave it several features that are not supported by fossil evidence, making the real animal even more interesting.",
+fun:"Would have the most ridiculous hairstyle in the prehistoric world and somehow make it work.",
+tags:["CRESTS","JURASSIC","ICONIC"]
+},
+
+{
+name:"Compsognathus",
+short:"COMPSOGNATHUS",
+emoji:"🐤",
+period:"LATE JURASSIC",
+place:"EUROPE",
+diet:"CARNIVORE",
+size:"~1 METRE",
+weight:"~2.5 KG",
+text:"Compsognathus was tiny compared with many famous dinosaurs. Its lightweight body and long legs show that dinosaurs came in an enormous range of sizes.",
+fun:"Smallest guy in the group who somehow has the biggest attitude.",
+tags:["TINY","FAST","SMALL PREDATOR"]
+},
+
+{
+name:"Mosasaurus",
+short:"MOSASAURUS",
+emoji:"🌊",
+period:"LATE CRETACEOUS",
+place:"OCEANS WORLDWIDE",
+diet:"MARINE PREDATOR",
+size:"~12–17 METRES",
+weight:"~10–15 TONNES",
+text:"Mosasaurus was not technically a dinosaur. It was a gigantic marine reptile called a mosasaur. Its inclusion gives us a look at the incredible predators that shared the Mesozoic world.",
+fun:"Would never come onto land. Owns a yacht despite literally being able to swim across the ocean.",
+tags:["OCEAN","GIANT","NOT A DINOSAUR"]
+
+}
+
+];
+
+const pages=document.getElementById("pages");
+const dots=document.getElementById("dots");
+
+dinosaurs.forEach((d,i)=>{
+
+ const page=document.createElement("section");
+ page.className="page"+(i===0?" active":"");
+
+ page.innerHTML=`
+
+ <div class="hero">
+
+  <div class="badge">
+   DOSSIER ${String(i+1).padStart(2,"0")} / 20
+  </div>
+
+  <h1>${d.name}</h1>
+
+  <p class="subtitle">${d.text}</p>
+
+  <div class="dino-display">
+   <div class="dino-art">${d.emoji}</div>
+  </div>
+
+  <div class="stats">
+
+   <div class="stat">
+    <small>ERA</small>
+    <strong>${d.period}</strong>
+   </div>
+
+   <div class="stat">
+    <small>LOCATION</small>
+    <strong>${d.place}</strong>
+   </div>
+
+   <div class="stat">
+    <small>DIET</small>
+    <strong>${d.diet}</strong>
+   </div>
+
+   <div class="stat">
+    <small>SIZE</small>
+    <strong>${d.size}</strong>
+   </div>
+
+  </div>
+
+  <div class="content">
+
+   <div class="card">
+    <h2>🧬 WHAT WAS IT LIKE?</h2>
+    <p>${d.text}</p>
+    <p>
+    Fossils give scientists clues about how this animal moved,
+    ate and lived. New discoveries can completely change what
+    we think we know about prehistoric life.
+    </p>
+
+    <div class="tags">
+      ${d.tags.map(t=>`<span>${t}</span>`).join("")}
+    </div>
+   </div>
+
+   <div class="card fun">
+    <h2>⚡ 2026 DINO VIBE</h2>
+    <p>${d.fun}</p>
+    <p>
+    <strong>IMPORTANT:</strong>
+    This section is completely fictional. It is just a fun way
+    of imagining what the dinosaur's personality might be like
+    if it somehow appeared in modern life.
+    </p>
+   </div>
+
+  </div>
+
+  <div class="card" style="margin-top:18px">
+   <h2>🦴 QUICK BREAKDOWN</h2>
+
+   <p>
+    <strong>Estimated mass:</strong> ${d.weight}
+   </p>
+
+   <p>
+    <strong>Known for:</strong> ${d.tags.join(" • ")}
+   </p>
+
+   <p>
+    <strong>Reality check:</strong>
+    Dinosaur fossils do not preserve every detail of behaviour,
+    personality or appearance. Some parts of popular dinosaur
+    culture are based on evidence, while others are educated
+    reconstruction.
+   </p>
+  </div>
+
+  ${i===19?'<div class="final-mark">STC ON THE GO</div>':""}
+
+ </div>
+ `;
+
+ pages.appendChild(page);
+
+ const dot=document.createElement("div");
+ dot.className="dot"+(i===0?" active":"");
+ dots.appendChild(dot);
+
+});
+
+let current=0;
+
+function showPage(index){
+
+ if(index<0)index=dinosaurs.length-1;
+ if(index>=dinosaurs.length)index=0;
+
+ document.querySelectorAll(".page").forEach((p,i)=>{
+   p.classList.toggle("active",i===index);
+ });
+
+ document.querySelectorAll(".dot").forEach((d,i)=>{
+   d.classList.toggle("active",i===index);
+ });
+
+ current=index;
+
+ document.getElementById("counter").textContent=
+ String(index+1).padStart(2,"0")+" / 20";
+
+ document.getElementById("pageName").textContent=
+ dinosaurs[index].short;
+
+ window.scrollTo({
+   top:0,
+   behavior:"smooth"
+ });
+}
+
+function next(){
+ showPage(current+1);
+}
+
+function previous(){
+ showPage(current-1);
+}
+
+/* Keyboard navigation */
+document.addEventListener("keydown",e=>{
+ if(e.key==="ArrowRight")next();
+ if(e.key==="ArrowLeft")previous();
+});
+
+/* Swipe navigation for phones */
+let touchStart=0;
+
+document.addEventListener("touchstart",e=>{
+ touchStart=e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend",e=>{
+ const touchEnd=e.changedTouches[0].screenX;
+ const distance=touchEnd-touchStart;
+
+ if(Math.abs(distance)>70){
+   if(distance<0)next();
+   else previous();
+ }
+});
+
+</script>
+
+</body>
+</html>
